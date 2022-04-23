@@ -1,0 +1,9 @@
+*.o
+*.mk
+*.su
+*.d
+*.elf
+*.list
+*.map
+makefile
+.mxproject

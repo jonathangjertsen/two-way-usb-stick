@@ -35,6 +35,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include <string.h>
 #include "ff_gen_drv.h"
+#include "ramdisk.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -96,7 +97,7 @@ DSTATUS USER_status (
 )
 {
   /* USER CODE BEGIN STATUS */
-    Stat = STA_NOINIT;
+    Stat = RES_OK;
     return Stat;
   /* USER CODE END STATUS */
 }
@@ -117,6 +118,8 @@ DRESULT USER_read (
 )
 {
   /* USER CODE BEGIN READ */
+	uint8_t *ramdisk_buffer = ramdisk_buffer_get();
+	memcpy(buff, &ramdisk_buffer[_MIN_SS * sector], _MIN_SS * count);
     return RES_OK;
   /* USER CODE END READ */
 }
@@ -139,6 +142,8 @@ DRESULT USER_write (
 {
   /* USER CODE BEGIN WRITE */
   /* USER CODE HERE */
+	uint8_t *ramdisk_buffer = ramdisk_buffer_get();
+	memcpy(&ramdisk_buffer[_MIN_SS * sector], buff, _MIN_SS * count);
     return RES_OK;
   /* USER CODE END WRITE */
 }

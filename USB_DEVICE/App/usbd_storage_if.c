@@ -23,6 +23,8 @@
 
 /* USER CODE BEGIN INCLUDE */
 
+#include "ramdisk.h"
+
 /* USER CODE END INCLUDE */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -51,6 +53,8 @@
 
 /* USER CODE BEGIN PRIVATE_TYPES */
 
+#if 0
+
 /* USER CODE END PRIVATE_TYPES */
 
 /**
@@ -63,12 +67,16 @@
   */
 
 #define STORAGE_LUN_NBR                  1
-#define STORAGE_BLK_NBR                  1000 // for 500 kB
+#define STORAGE_BLK_NBR                  0x10000
 #define STORAGE_BLK_SIZ                  0x200
 
 /* USER CODE BEGIN PRIVATE_DEFINES */
 
-uint8_t ramdisk[STORAGE_BLK_NBR * STORAGE_BLK_SIZ];
+#endif
+
+#define STORAGE_LUN_NBR                  1
+#define STORAGE_BLK_NBR                  1000
+#define STORAGE_BLK_SIZ                  0x200
 
 /* USER CODE END PRIVATE_DEFINES */
 
@@ -286,7 +294,7 @@ int8_t STORAGE_Read_FS(uint8_t lun, uint8_t *buf, uint32_t blk_addr, uint16_t bl
   /* USER CODE BEGIN 6 */
   UNUSED(lun);
 
-  memcpy(buf, &ramdisk[blk_addr * STORAGE_BLK_SIZ], blk_len * STORAGE_BLK_SIZ);
+  ramdisk_read(buf, blk_addr, STORAGE_BLK_SIZ, blk_len);
 
   return (USBD_OK);
   /* USER CODE END 6 */
@@ -305,7 +313,7 @@ int8_t STORAGE_Write_FS(uint8_t lun, uint8_t *buf, uint32_t blk_addr, uint16_t b
   /* USER CODE BEGIN 7 */
   UNUSED(lun);
 
-  memcpy(&ramdisk[blk_addr * STORAGE_BLK_SIZ], buf, blk_len * STORAGE_BLK_SIZ);
+  ramdisk_write(buf, blk_addr, STORAGE_BLK_SIZ, blk_len);
 
   return (USBD_OK);
   /* USER CODE END 7 */
@@ -394,7 +402,7 @@ int8_t STORAGE_Read_HS(uint8_t lun, uint8_t *buf, uint32_t blk_addr, uint16_t bl
   /* USER CODE BEGIN 13 */
   UNUSED(lun);
 
-  memcpy(buf, &ramdisk[blk_addr * STORAGE_BLK_SIZ], blk_len * STORAGE_BLK_SIZ);
+  ramdisk_read(buf, blk_addr, STORAGE_BLK_SIZ, blk_len);
 
   return (USBD_OK);
   /* USER CODE END 13 */
@@ -413,7 +421,7 @@ int8_t STORAGE_Write_HS(uint8_t lun, uint8_t *buf, uint32_t blk_addr, uint16_t b
   /* USER CODE BEGIN 14 */
   UNUSED(lun);
 
-  memcpy(&ramdisk[blk_addr * STORAGE_BLK_SIZ], buf, blk_len * STORAGE_BLK_SIZ);
+  ramdisk_write(buf, blk_addr, STORAGE_BLK_SIZ, blk_len);
 
   return (USBD_OK);
   /* USER CODE END 14 */

@@ -5,9 +5,7 @@
 
 #include <stddef.h>
 
-#define STORAGE_LUN_NBR                  1
-#define STORAGE_BLK_NBR                  1000
-#define STORAGE_BLK_SIZ                  0x200
+#include "disk.h"
 
 void ramdisk_write(const uint8_t *data, uint32_t block, uint32_t block_size, uint32_t n_blocks);
 

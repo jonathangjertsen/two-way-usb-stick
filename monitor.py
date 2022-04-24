@@ -2,8 +2,15 @@ from argparse import ArgumentParser
 from serial import Serial
 import time
 
+from pathlib import Path
+from argparse import ArgumentParser
+
+import fs
+import fs.copy
+import fs.walk
+
 BLOCK_SIZE = 512
-N_BLOCKS = 1000
+N_BLOCKS = 512
 FS_SIZE = BLOCK_SIZE * N_BLOCKS
 
 BOOT_SECTOR_HEADER = bytes([0xEB, 0x3C, 0x90])
@@ -39,12 +46,21 @@ def main():
     parser.add_argument("port")
     parser.add_argument("baud")
     parser.add_argument("output")
+    parser.add_argument("--fs", default="fs.iso")
     args = parser.parse_args()
     ser = Serial(args.port, args.baud, timeout=1)
-    fs = get_fs(ser)
-    with open(args.output, "wb") as file:
-        file.write(fs)
 
+    fs_path = Path(args.fs).absolute()
+    out_path = Path(args.output).absolute()
+    out_path.mkdir(exist_ok=True, parents=True)
+
+    while True:
+        fs_bin = get_fs(ser)
+        with open(fs_path, "wb") as file:
+            file.write(fs_bin)
+
+        with fs.open_fs(f"fat://{fs_path}") as fat_fs:
+            fs.copy.copy_fs(fat_fs, str(out_path), walker=fs.walk.Walker(filter=["*.png", "*.PNG"]))
 
 if __name__ == "__main__":
     main()

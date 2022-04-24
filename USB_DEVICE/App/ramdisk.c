@@ -19,7 +19,6 @@ uint8_t *ramdisk_get(void)
 	return ramdisk;
 }
 
-
 size_t ramdisk_size(void)
 {
 	return sizeof(ramdisk);

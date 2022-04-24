@@ -1,7 +1,10 @@
 #include "ramdisk.h"
+
+#include "disk.h"
+
 #include <string.h>
 
-uint8_t ramdisk[STORAGE_BLK_NBR * STORAGE_BLK_SIZ] __attribute__((aligned (4)));
+uint8_t ramdisk[DISK_SIZE] __attribute__((aligned (32)));
 
 void ramdisk_write(const uint8_t *data, uint32_t block, uint32_t block_size, uint32_t n_blocks)
 {

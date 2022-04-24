@@ -141,8 +141,10 @@ int main(void)
 		  if (new_crc != prev_crc)
 		  {
 			  HAL_GPIO_WritePin(GPIOE, GPIO_PIN_1, GPIO_PIN_SET);
-			  flashdisk_store(ramdisk, size);
-			  HAL_GPIO_WritePin(GPIOE, GPIO_PIN_1, GPIO_PIN_RESET);
+              if (flashdisk_store(ramdisk, size) == FLASHDISK_STORE_OK)
+              {
+    			  HAL_GPIO_WritePin(GPIOE, GPIO_PIN_1, GPIO_PIN_RESET);
+              }
 		  }
 		  prev_crc = new_crc;
 

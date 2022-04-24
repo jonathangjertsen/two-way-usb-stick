@@ -23,6 +23,7 @@
 
 /* USER CODE BEGIN INCLUDE */
 
+#include "disk.h"
 #include "ramdisk.h"
 
 /* USER CODE END INCLUDE */
@@ -73,10 +74,6 @@
 /* USER CODE BEGIN PRIVATE_DEFINES */
 
 #endif
-
-#define STORAGE_LUN_NBR                  1
-#define STORAGE_BLK_NBR                  1000
-#define STORAGE_BLK_SIZ                  0x200
 
 /* USER CODE END PRIVATE_DEFINES */
 
